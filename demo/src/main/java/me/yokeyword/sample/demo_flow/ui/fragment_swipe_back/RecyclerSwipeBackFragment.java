@@ -61,15 +61,9 @@ public class RecyclerSwipeBackFragment extends BaseSwipeBackFragment {
         List<String> items = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
             String item;
-            item = "收藏 " + i;
+            item = getString(R.string.favorite) + " " + i;
             items.add(item);
         }
         mAdapter.setDatas(items);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mRecy.setAdapter(null);
     }
 }

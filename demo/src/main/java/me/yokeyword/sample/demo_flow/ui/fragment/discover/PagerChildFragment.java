@@ -12,12 +12,12 @@ import java.util.List;
 
 import me.yokeyword.sample.R;
 import me.yokeyword.sample.demo_flow.adapter.PagerAdapter;
+import me.yokeyword.sample.demo_flow.base.MySupportFragment;
 import me.yokeyword.sample.demo_flow.listener.OnItemClickListener;
-import me.yokeyword.sample.demo_flow.base.BaseFragment;
 import me.yokeyword.sample.demo_flow.ui.fragment.CycleFragment;
 
 
-public class PagerChildFragment extends BaseFragment {
+public class PagerChildFragment extends MySupportFragment {
     private static final String ARG_FROM = "arg_from";
 
     private int mFrom;
@@ -79,22 +79,16 @@ public class PagerChildFragment extends BaseFragment {
                 for (int i = 0; i < 20; i++) {
                     String item;
                     if (mFrom == 0) {
-                        item = "推荐 " + i;
+                        item = getString(R.string.recommend) + " " + i;
                     } else if (mFrom == 1) {
-                        item = "热门 " + i;
+                        item = getString(R.string.hot) +" " + i;
                     } else {
-                        item = "收藏 " + i;
+                        item = getString(R.string.favorite) +" " + i;
                     }
                     items.add(item);
                 }
                 mAdapter.setDatas(items);
             }
         });
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mRecy.setAdapter(null);
     }
 }

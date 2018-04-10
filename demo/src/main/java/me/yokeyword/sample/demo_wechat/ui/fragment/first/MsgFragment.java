@@ -67,7 +67,7 @@ public class MsgFragment extends BaseBackFragment {
     }
 
     @Override
-    protected void onEnterAnimationEnd(Bundle savedInstanceState) {
+    public void onEnterAnimationEnd(Bundle savedInstanceState) {
         super.onEnterAnimationEnd(savedInstanceState);
         // 入场动画结束后执行  优化,防动画卡顿
 
@@ -96,7 +96,7 @@ public class MsgFragment extends BaseBackFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mRecy.setAdapter(null);
+        mRecy = null;
         _mActivity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         hideSoftInput();
     }

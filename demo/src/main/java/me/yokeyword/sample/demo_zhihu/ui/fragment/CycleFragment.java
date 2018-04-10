@@ -49,13 +49,14 @@ public class CycleFragment extends BaseBackFragment {
         return view;
     }
 
+
     private void initView(View view) {
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mTvName = (TextView) view.findViewById(R.id.tv_name);
         mBtnNext = (Button) view.findViewById(R.id.btn_next);
         mBtnNextWithFinish = (Button) view.findViewById(R.id.btn_next_with_finish);
 
-        String title = "循环Fragment" + mNumber;
+        String title = "CyclerFragment " + mNumber;
 
         mToolbar.setTitle(title);
         initToolbarNav(mToolbar);

@@ -38,16 +38,12 @@ public class ZhihuFourthFragment extends BaseMainFragment {
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        if (savedInstanceState == null) {
+        if (findChildFragment(AvatarFragment.class) == null) {
             loadFragment();
-        } else {  // 这里可能会出现该Fragment没被初始化时,就被强杀导致的没有load子Fragment
-            if (findChildFragment(AvatarFragment.class) == null) {
-                loadFragment();
-            }
         }
 
         mToolbar = (Toolbar) mView.findViewById(R.id.toolbar);
-        mToolbar.setTitle("我的");
+        mToolbar.setTitle(R.string.me);
     }
 
     private void loadFragment() {

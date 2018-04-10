@@ -14,16 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
+import me.yokeyword.fragmentation.SupportFragment;
 import me.yokeyword.sample.R;
 import me.yokeyword.sample.demo_zhihu.MainActivity;
 import me.yokeyword.sample.demo_zhihu.adapter.FirstHomeAdapter;
-import me.yokeyword.sample.demo_zhihu.base.BaseFragment;
 import me.yokeyword.sample.demo_zhihu.entity.Article;
 import me.yokeyword.sample.demo_zhihu.event.TabSelectedEvent;
 import me.yokeyword.sample.demo_zhihu.helper.DetailTransition;
@@ -32,7 +32,7 @@ import me.yokeyword.sample.demo_zhihu.listener.OnItemClickListener;
 /**
  * Created by YoKeyword on 16/6/5.
  */
-public class FirstHomeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLayout.OnRefreshListener {
     private Toolbar mToolbar;
     private RecyclerView mRecy;
     private SwipeRefreshLayout mRefreshLayout;
@@ -69,7 +69,7 @@ public class FirstHomeFragment extends BaseFragment implements SwipeRefreshLayou
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.zhihu_fragment_first_home, container, false);
-        EventBus.getDefault().register(this);
+        EventBusActivityScope.getDefault(_mActivity).register(this);
         initView(view);
         return view;
     }
@@ -80,7 +80,7 @@ public class FirstHomeFragment extends BaseFragment implements SwipeRefreshLayou
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
         mFab = (FloatingActionButton) view.findViewById(R.id.fab);
 
-        mToolbar.setTitle("首页");
+        mToolbar.setTitle(R.string.home);
 
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         mRefreshLayout.setOnRefreshListener(this);
@@ -105,18 +105,19 @@ public class FirstHomeFragment extends BaseFragment implements SwipeRefreshLayou
 
                     // 25.1.0以下的support包,Material过渡动画只有在进栈时有,返回时没有;
                     // 25.1.0+的support包，SharedElement正常
-                    fragment.transaction()
+                    extraTransaction()
                             .addSharedElement(((FirstHomeAdapter.VH) vh).img, getString(R.string.image_transition))
                             .addSharedElement(((FirstHomeAdapter.VH) vh).tvTitle, "tv")
-                            .commit();
+                            .start(fragment);
+                } else {
+                    start(fragment);
                 }
-                start(fragment);
             }
         });
 
         // Init Datas
         List<Article> articleList = new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 8; i++) {
             int index = i % 5;
             Article article = new Article(mTitles[index], mImgRes[index]);
             articleList.add(article);
@@ -181,7 +182,6 @@ public class FirstHomeFragment extends BaseFragment implements SwipeRefreshLayou
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mRecy.setAdapter(null);
-        EventBus.getDefault().unregister(this);
+        EventBusActivityScope.getDefault(_mActivity).unregister(this);
     }
 }

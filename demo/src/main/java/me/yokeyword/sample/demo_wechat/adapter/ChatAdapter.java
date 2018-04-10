@@ -19,14 +19,12 @@ import me.yokeyword.sample.demo_wechat.listener.OnItemClickListener;
  * Created by YoKeyword on 16/6/30.
  */
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.VH> {
-    private Context mContext;
     private LayoutInflater mInflater;
     private List<Chat> mItems = new ArrayList<>();
 
     private OnItemClickListener mClickListener;
 
     public ChatAdapter(Context context) {
-        mContext = context;
         mInflater = LayoutInflater.from(context);
     }
 
@@ -64,7 +62,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.VH> {
 
         holder.tvName.setText(item.name);
         holder.tvMsg.setText(item.message);
-        holder.tvTime.setText("昨天");
+        holder.tvTime.setText(R.string.time);
     }
 
     @Override

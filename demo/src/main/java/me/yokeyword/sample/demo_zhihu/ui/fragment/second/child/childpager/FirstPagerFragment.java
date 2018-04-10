@@ -9,12 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 import me.yokeyword.fragmentation.SupportFragment;
 import me.yokeyword.sample.R;
 import me.yokeyword.sample.demo_zhihu.MainActivity;
@@ -22,33 +22,19 @@ import me.yokeyword.sample.demo_zhihu.adapter.HomeAdapter;
 import me.yokeyword.sample.demo_zhihu.entity.Article;
 import me.yokeyword.sample.demo_zhihu.event.TabSelectedEvent;
 import me.yokeyword.sample.demo_zhihu.listener.OnItemClickListener;
-import me.yokeyword.sample.demo_zhihu.base.BaseFragment;
 import me.yokeyword.sample.demo_zhihu.ui.fragment.second.child.DetailFragment;
 
 /**
  * Created by YoKeyword on 16/6/3.
  */
-public class FirstPagerFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class FirstPagerFragment extends SupportFragment implements SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView mRecy;
     private SwipeRefreshLayout mRefreshLayout;
-
     private HomeAdapter mAdapter;
-
     private boolean mAtTop = true;
-
     private int mScrollTotal;
-
-    private String[] mTitles = new String[]{
-            "航拍“摩托大军”返乡高峰 如蚂蚁搬家（组图）",
-            "苹果因漏电召回部分电源插头",
-            "IS宣称对叙利亚爆炸案负责"
-    };
-
-    private String[] mContents = new String[]{
-            "1月30日，距离春节还有不到十天，“摩托大军”返乡高峰到来。航拍广西梧州市东出口服务站附近的骑行返乡人员，如同蚂蚁搬家一般。",
-            "昨天记者了解到，苹果公司在其官网发出交流电源插头转换器更换计划，召回部分可能存在漏电风险的电源插头。",
-            "极端组织“伊斯兰国”31日在社交媒体上宣称，该组织制造了当天在叙利亚首都大马士革发生的连环爆炸案。"
-    };
+    private String[] mTitles;
+    private String[] mContents;
 
     public static FirstPagerFragment newInstance() {
 
@@ -63,7 +49,7 @@ public class FirstPagerFragment extends BaseFragment implements SwipeRefreshLayo
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.zhihu_fragment_second_pager_first, container, false);
-        EventBus.getDefault().register(this);
+        EventBusActivityScope.getDefault(_mActivity).register(this);
         initView(view);
         return view;
     }
@@ -71,6 +57,9 @@ public class FirstPagerFragment extends BaseFragment implements SwipeRefreshLayo
     private void initView(View view) {
         mRecy = (RecyclerView) view.findViewById(R.id.recy);
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
+
+        mTitles = getResources().getStringArray(R.array.array_title);
+        mContents = getResources().getStringArray(R.array.array_content);
 
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         mRefreshLayout.setOnRefreshListener(this);
@@ -144,8 +133,7 @@ public class FirstPagerFragment extends BaseFragment implements SwipeRefreshLayo
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mRecy.setAdapter(null);
-        EventBus.getDefault().unregister(this);
+        EventBusActivityScope.getDefault(_mActivity).unregister(this);
     }
 
 }

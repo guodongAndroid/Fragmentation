@@ -1,122 +1,118 @@
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Fragmentation-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/5937)
+[![Build Status](https://travis-ci.org/YoKeyword/Fragmentation.svg?branch=master)](https://travis-ci.org/YoKeyword/Fragmentation)
+[![Download](https://api.bintray.com/packages/yokeyword/maven/Fragmentation/images/download.svg) ](https://bintray.com/yokeyword/maven/Fragmentation/_latestVersion)
+[![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+
+### [中文版 README.md](https://github.com/YoKeyword/Fragmentation/blob/master/README_CN.md)
+
 # Fragmentation
-A powerful library that manage Fragment for Android!
-
-## [English README](https://github.com/YoKeyword/Fragmentation/blob/master/README_EN.md)
-
-为"单Activity ＋ 多Fragment","多模块Activity + 多Fragment"架构而生，帮你大大简化使用过程，轻松解决各种复杂嵌套等问题，修复了官方Fragment库中存在的一些BUG。
 
 ![](/gif/logo.png)
 
+Fragmentation is a powerful library managing Fragment for Android.
 
-为了更好的使用和了解该库，推荐阅读下面的文章:
+It is designed for "Single Activity + Multi-Fragments" and "Multi-FragmentActivities + Multi-Fragments" architecture to simplify development process.
 
-[Fragment全解析系列（一）：那些年踩过的坑](http://www.jianshu.com/p/d9143a92ad94)
+## Demo
+The first demo shows the basic usage of the library. The second one shows the way to implement an app which is similar to Instagram. Complicated nested fragments' usage demo are also showed.
 
-[Fragment全解析系列（二）：正确的使用姿势](http://www.jianshu.com/p/fd71d65f0ec6)
+## [Download APK](https://www.pgyer.com/fragmentation)
 
+<img src="/gif/demo1.gif" width="280px"/> <img src="/gif/demo2.gif" width="280px"/>
+ <img src="/gif/demo3.gif" width="280px"/>
 
-# Demo演示：
-均为单Activity + 多Fragment，第一个为简单流式demo，第二个为仿微信交互的demo(全页面支持滑动退出)，第三个为仿知乎交互的复杂嵌套demo
+## Feature
 
-<img src="/gif/demo.gif" width="280px"/>&emsp;<img src="/gif/wechat.gif" width="280px"/>
-&emsp;<img src="/gif/nested.gif" width="280px"/>
+**1. Develop complicated nested fragment app rapidly**
 
-# 特性
+**2. Use fragment's stack view dialog to debug easily**
 
-1、**可以快速开发出各种嵌套设计的Fragment App**
+**3. Add launch mode, startForResult etc. to provide similar behavior of Activity**
 
-2、**悬浮球／摇一摇实时查看Fragment的栈视图Dialog，大大降低开发难度**
+**4. Add onBackPressedSupport() method to support back button press monitoring in Fragment**
 
-3、**增加启动模式、startForResult等类似Activity方法**
+**5. Add onSupportVisible(), onLazyInitView() to simplify dev**
 
-4、**类似Android事件分发机制的Fragment回退方法：onBackPressedSupport()，轻松为每个Fragment实现Back按键事件**
+**6. Easily manage Fragment transition animations**
 
-5、**New！！！ 提供onSupportVisible()等生命周期方法，简化嵌套Fragment的开发过程； 提供统一的onLazyInitView()懒加载方法**
+**7. To simplify the communication between Fragment([EventBusActivityScope module](https://github.com/YoKeyword/Fragmentation/blob/master/eventbus_activity_scope/README.md))**
 
-6、**提供靠谱的 Fragment转场动画 的解决方案**
+**8. Support SwipeBack to pop(Fragmentation_SwipeBack module [README](https://github.com/YoKeyword/Fragmentation/blob/master/fragmentation_swipeback/README.md))**
 
-7、**更强的兼容性, 解决多点触控、重叠等问题**
+<img src="/gif/stack.png" width="150px"/> <img src="/gif/log.png" width="300px"/>       <img src="/gif/SwipeBack.png" width="150px"/>
 
-8、**支持SwipeBack滑动边缘退出(需要使用Fragment｀ation_SwipeBack库,详情[README](https://github.com/YoKeyword/Fragmentation/blob/master/fragmentation_swipeback/README.md))**
+## How do I use Fragmentation?
 
-<img src="/gif/log.png" width="400px"/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<img src="/gif/SwipeBack.jpg" width="150px"/>
-
-# TODO
-* ~~栈视图悬浮球／摇一摇唤出 栈视图~~
-* Activity侧滑返回：更换实现方式
-* Fragment侧滑返回：实现视觉差效果
-* replace进一步的支持
-* Fragment路由module
-
-# 重大更新日志
-
-### 0.10.X [详情点这里](https://github.com/YoKeyword/Fragmentation/wiki/Home)
-
-1、添加可全局配置的Fragmentaion Builder类：
-* 提供方便打开栈视图Dialog的方法：
-    * bubble: 显示悬浮球，可点击唤出栈视图Dialog，可自由拖拽
-    * shake: 摇一摇唤出栈视图Dialog
-    * none: 默认不显示栈视图Dialog
-
-* 根据是否是Debug环境，方便区别处理异常（"Can not perform this action after onSaveInstanceState!"）
-
-2、兼容v4-25.1.1
-
-### 0.9.X
-
-1、解决多点触控问题，多项优化、兼容、Fix
-
-2、对于25.1.0+的 v4包，完善了SharedElement！
-
-### 0.8.X
-1、提供onLazyInitView()懒加载，onSupportVisible()，onSupportInvisible()等生命周期方法，简化开发；
-
-2、SupportActivity提供registerFragmentLifecycleCallbacks()来监控其下所有Fragment的生命周期；
-
-3、自定义Tag
-
-# 如何使用
-
-**1. 项目下app的build.gradle中依赖：**
+**1、build.gradle**
 ````gradle
-// appcompat v7包是必须的
-compile 'me.yokeyword:fragmentation:0.10.1'
-// 如果想使用SwipeBack 滑动边缘退出Fragment/Activity功能，请再添加下面的库
-// compile 'me.yokeyword:fragmentation-swipeback:0.7.9'
+// appcompat-v7 is required
+compile 'me.yokeyword:fragmentation:1.3.3'
+
+// If you don't want to extends SupportActivity/Fragment and would like to customize your own support, just rely on fragmentation-core
+// compile 'me.yokeyword:fragmentation-core:1.3.3'
+
+// To get SwipeBack feature, rely on both fragmentation & fragmentation-swipeback
+compile 'me.yokeyword:fragmentation:1.3.3'
+// Swipeback is based on fragmentation. Refer to SwipeBackActivity/Fragment for your Customized SupportActivity/Fragment
+compile 'me.yokeyword:fragmentation-swipeback:1.3.3'
+
+// To simplify the communication between Fragments.
+compile 'me.yokeyword:eventbus-activity-scope:1.1.0'
+// Your EventBus's version
+compile 'org.greenrobot:eventbus:{version}'
 ````
 
-**2. Activity继承SupportActivity：**
+**2. Activity `extends` SupportActivity or `implements` ISupportActivity：(refer to [MySupportActivity](https://github.com/YoKeyword/Fragmentation/blob/master/demo/src/main/java/me/yokeyword/sample/demo_flow/base/MySupportActivity.java))**
 ````java
+// since v1.0.0, forced extends of SupportActivity is not required, you can use interface + delegate to implement your own SupportActivity 
 public class MainActivity extends SupportActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(...);
-        if (savedInstanceState == null) {
-            loadRootFragment(R.id.fl_container, HomeFragment.newInstance());  // 加载根Fragment
-        }
-        // 栈视图功能，大大降低Fragment的开发难度，建议在Application里初始化
+      	// Fragmentation is recommended to initialize in the Application
         Fragmentation.builder()
-                // 显示悬浮球 ; 其他Mode:SHAKE: 摇一摇唤出   NONE：隐藏
-                .stackViewMode(Fragmentation.BUBBLE)
-                .install();
+          	 // show stack view. Mode: BUBBLE, SHAKE, NONE
+             .stackViewMode(Fragmentation.BUBBLE)
+             .debug(BuildConfig.DEBUG)
+             ...
+             .install();
+
+        if (findFragment(HomeFragment.class) == null) {
+            loadRootFragment(R.id.fl_container, HomeFragment.newInstance());  //load root Fragment
+        }
     }
 ````
 
-**3. Fragment继承SupportFragment：**
+**3. Fragment `extends` SupportFragment or `implements` ISupportFragment：(refer to [MySupportFragment](https://github.com/YoKeyword/Fragmentation/blob/master/demo/src/main/java/me/yokeyword/sample/demo_flow/base/MySupportFragment.java))：**
 ````java
+// since v1.0.0, forced extends of SupportActivity is not required, you can use interface + delegate to implement your own SupportActivity
 public class HomeFragment extends SupportFragment {
 
     private void xxx() {
-        // 启动新的Fragment, 另外还有start(fragment,SINGTASK)、startForResult、startWithPop等启动方法
+      	// launch a new Fragment, other methods: start(fragment,SINGTASK)、startForResult、startWithPop etc.
         start(DetailFragment.newInstance(HomeBean));
-        // ... 其他pop, find, 设置动画等等API, 请自行查看WIKI
+      	// check wiki for other pop, find and animation setting related API
     }
 }
 ````
 
-### [进一步使用，查看wiki](https://github.com/YoKeyword/Fragmentation/wiki)
+## [WIKI](https://github.com/YoKeyword/Fragmentation/wiki) , [CHANGELOG](https://github.com/YoKeyword/Fragmentation/blob/master/CHANGELOG.md)
 
-# 最后
-有任何问题欢迎提issue或发邮件一起探讨，欢迎Star，Fork，PR！
+## LICENSE
+````
+Copyright 2016 YoKey
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+````

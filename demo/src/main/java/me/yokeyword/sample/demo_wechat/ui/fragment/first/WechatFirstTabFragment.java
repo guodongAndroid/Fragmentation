@@ -12,17 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 import me.yokeyword.sample.R;
 import me.yokeyword.sample.demo_wechat.adapter.ChatAdapter;
 import me.yokeyword.sample.demo_wechat.base.BaseMainFragment;
 import me.yokeyword.sample.demo_wechat.entity.Chat;
-import me.yokeyword.sample.demo_wechat.event.StartBrotherEvent;
 import me.yokeyword.sample.demo_wechat.event.TabSelectedEvent;
 import me.yokeyword.sample.demo_wechat.listener.OnItemClickListener;
 import me.yokeyword.sample.demo_wechat.ui.fragment.MainFragment;
@@ -62,9 +61,9 @@ public class WechatFirstTabFragment extends BaseMainFragment implements SwipeRef
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
         mRecy = (RecyclerView) view.findViewById(R.id.recy);
 
-        EventBus.getDefault().register(this);
+        EventBusActivityScope.getDefault(_mActivity).register(this);
 
-        mToolbar.setTitle("首页");
+        mToolbar.setTitle(R.string.home);
     }
 
     @Override
@@ -102,11 +101,8 @@ public class WechatFirstTabFragment extends BaseMainFragment implements SwipeRef
             public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
                 // 因为启动的MsgFragment是MainFragment的兄弟Fragment,所以需要MainFragment.start()
 
-                // 这里我使用EventBus通知父MainFragment处理跳转(接耦),
-                EventBus.getDefault().post(new StartBrotherEvent(MsgFragment.newInstance(mAdapter.getMsg(position))));
-
-                // 也可以像使用getParentFragment()的方式,拿到父Fragment的引用来操作 (不建议)
-//              ((MainFragment) getParentFragment()).startMsgBrother(MsgFragment.newInstance());
+                // 也可以像使用getParentFragment()的方式,拿到父Fragment来操作 或者使用 EventBusActivityScope
+              ((MainFragment) getParentFragment()).startBrotherFragment(MsgFragment.newInstance(mAdapter.getMsg(position)));
             }
         });
 
@@ -117,8 +113,8 @@ public class WechatFirstTabFragment extends BaseMainFragment implements SwipeRef
     private List<Chat> initDatas() {
         List<Chat> msgList = new ArrayList<>();
 
-        String[] name = new String[]{"小黄", "小李", "小张", "老王", "小马"};
-        String[] chats = new String[]{"小黄的消息", "小李的消息", "小张的消息", "老王的消息", "小马的消息"};
+        String[] name = new String[]{"Jake", "Eric", "Kenny", "Helen", "Carr"};
+        String[] chats = new String[]{"message1", "message2", "message3", "message4", "message5"};
 
         for (int i = 0; i < 15; i++) {
             int index = (int) (Math.random() * 5);
@@ -163,7 +159,6 @@ public class WechatFirstTabFragment extends BaseMainFragment implements SwipeRef
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mRecy.setAdapter(null);
-        EventBus.getDefault().unregister(this);
+        EventBusActivityScope.getDefault(_mActivity).unregister(this);
     }
 }

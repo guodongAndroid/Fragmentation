@@ -34,7 +34,8 @@ public class ZhihuFirstFragment extends BaseMainFragment {
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        if (savedInstanceState == null) {
+
+        if (findChildFragment(FirstHomeFragment.class) == null) {
             loadRootFragment(R.id.fl_first_container, FirstHomeFragment.newInstance());
         }
     }
